@@ -1,0 +1,4 @@
+/.idea/
+/config.py
+/gservice_account.json
+/db.sqlite3
