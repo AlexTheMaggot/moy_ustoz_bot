@@ -39,7 +39,7 @@ async def teachers_sender(message, teachers, lang):
     for teacher in teachers:
         formatted_price = f'{teacher["price"]:,}'.replace(',', ' ')
         if lang == 'ru':
-            text = f"{teacher['name']}, от {formatted_price} сум\n"
+            text = f"<b>{teacher['name']}</b>\n💸 от {formatted_price} сум\n"
             text += ', '.join([i["name_ru"] for i in teacher["formats"]]) + '\n'
             text += teacher['status']['name_ru'] + '\n'
             text += f'Опыт работы: {formatted_year(teacher["experience"])}\n'
@@ -90,7 +90,7 @@ async def teachers_sender(message, teachers, lang):
                     media_group.add_video(media=v)
                 else:
                     media_group.add_photo(media=v)
-            await message.answer_media_group(media=media_group.build(), reply_markup=inline_btn)
+            await message.answer_media_group(media=media_group.build(), reply_markup=inline_btn, parse_mode='HTML')
         elif len(content) == 1:
             k, v = content[0]
             if k == 'video':
