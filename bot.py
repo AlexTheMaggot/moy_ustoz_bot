@@ -210,10 +210,16 @@ async def change_lang_handler(message: Message, state: FSMContext):
 
 async def main():
     await db.init_db()
-    asyncio.create_task(google_sheets_sync())
     bot = Bot(token=TELEGRAM_API_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
-    await dp.start_polling(bot)
-    await google_sheets_sync()
+    sheets_task = asyncio.create_task(google_sheets_sync())
+    try:
+        await dp.start_polling(bot)
+    finally:
+        sheets_task.cancel()
+        try:
+            await sheets_task
+        except asyncio.CancelledError:
+            pass
 
 
 if __name__ == "__main__":
