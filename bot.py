@@ -184,7 +184,7 @@ async def teacher_list_handler(message, state):
             await message.answer(text=text, reply_markup=rm)
     else:
         text = await methods.get_wrong_answer(lang)
-        rm = await kb.keyboard['teacher_list_kb_' + lang]
+        rm = kb.keyboard['teacher_list_kb_' + lang]
         await message.answer(text=text, reply_markup=rm)
 
 
