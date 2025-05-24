@@ -39,16 +39,16 @@ async def teachers_sender(message, teachers, lang):
     for teacher in teachers:
         formatted_price = f'{teacher["price"]:,}'.replace(',', ' ')
         if lang == 'ru':
-            text = f"<b>{teacher['name']}</b>\n💸 от {formatted_price} сум\n"
-            text += ', '.join([i["name_ru"] for i in teacher["formats"]]) + '\n'
-            text += teacher['status']['name_ru'] + '\n'
-            text += f'Опыт работы: {formatted_year(teacher["experience"])}\n'
-            text += f'Пол: {teacher["gender"]["name_ru"]}\n'
-            text += f'Язык(и) преподавания: {", ".join([i["name_ru"] for i in teacher["languages"]])}\n'
-            text += f'Локация: {teacher["location_ru"]}\n\n'
-            text += f'О себе: {teacher["about_ru"]}\n\n'
-            text += f'Образование: {teacher["education_ru"]}\n'
-            text += f'Номер телефона: +{teacher["phone"]}'
+            text = f"<b>{teacher['name']}</b>\n💸 от {formatted_price} сум\n\n"
+            text += '⭐️ ' + ', '.join([i["name_ru"] for i in teacher["formats"]]) + '\n'
+            text += '⭐️ ' + teacher['status']['name_ru'] + '\n'
+            text += f'⭐️ Опыт работы: {formatted_year(teacher["experience"])}\n'
+            text += f'⭐️ Пол: {teacher["gender"]["name_ru"]}\n'
+            text += f'⭐️ Язык(и) преподавания: {", ".join([i["name_ru"] for i in teacher["languages"]])}\n'
+            text += f'📍 Локация: {teacher["location_ru"]}\n\n'
+            text += f'<b>О себе:</b> {teacher["about_ru"]}\n\n'
+            text += f'<b>Образование:</b> {teacher["education_ru"]}\n'
+            text += f'<b>Номер телефона:</b> +{teacher["phone"]}'
             if teacher['tg_link']:
                 inline_btn = InlineKeyboardMarkup(inline_keyboard=[
                     [
