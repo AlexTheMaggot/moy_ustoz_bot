@@ -66,7 +66,7 @@ async def menu_start_handler(message, state):
         text = "Zo‘r 👍\nKerakli bo‘limni tanlang 👇"
         rm = await kb.category_list_kb(lang='uz')
     elif message.text == kb.buttons['i_am_teacher'].text:
-        text = '???'
+        text = 'Отлично 👍 присоединяйтесь сюда👇\nAjoyib! Quyidagiga qo‘shilinglar👇\n@moy_ustoz_zayavki_bot'
         rm = kb.keyboard['start_kb']
     else:
         text = "Пожалуйста, выберите пункт ниже👇\n------------------------------\nQuyidagi elementni tanlang👇"
@@ -104,6 +104,13 @@ async def category_list_handler(message, state):
             text = "Iltimos, tilni tanlang 👇"
         rm = kb.keyboard['change_lang_kb']
         await message.answer(text=text, reply_markup=rm)
+    elif message.text == kb.buttons['i_am_teacher_' + lang].text:
+        if lang == 'ru':
+            text = text = 'Отлично 👍 присоединяйтесь сюда👇\n@moy_ustoz_zayavki_bot'
+        else:
+            text = text = 'Ajoyib! Quyidagiga qo‘shilinglar👇\n@moy_ustoz_zayavki_bot'
+        rm = await kb.category_list_kb(lang=lang)
+        await message.answer(text=text, reply_markup=rm)
     else:
         text = await methods.get_wrong_answer(lang)
         rm = await kb.category_list_kb(lang)
@@ -135,6 +142,13 @@ async def subcategory_list_handler(message, state):
         else:
             text = "Iltimos, tilni tanlang 👇"
         rm = kb.keyboard['change_lang_kb']
+        await message.answer(text=text, reply_markup=rm)
+    elif message.text == kb.buttons['i_am_teacher_' + lang].text:
+        if lang == 'ru':
+            text = text = 'Отлично 👍 присоединяйтесь сюда👇\n@moy_ustoz_zayavki_bot'
+        else:
+            text = text = 'Ajoyib! Quyidagiga qo‘shilinglar👇\n@moy_ustoz_zayavki_bot'
+        rm = await kb.subcategory_list_kb(lang=lang, category_id=data['category_id'])
         await message.answer(text=text, reply_markup=rm)
     else:
         text = await methods.get_wrong_answer(lang)
@@ -182,6 +196,13 @@ async def teacher_list_handler(message, state):
                         "shu yo‘nalishda zo‘r ustozni tavsiya qilamiz 😉")
             rm = await kb.subcategory_list_kb(lang=lang, category_id=data['category_id'])
             await message.answer(text=text, reply_markup=rm)
+    elif message.text == kb.buttons['i_am_teacher_' + lang].text:
+        if lang == 'ru':
+            text = text = 'Отлично 👍 присоединяйтесь сюда👇\n@moy_ustoz_zayavki_bot'
+        else:
+            text = text = 'Ajoyib! Quyidagiga qo‘shilinglar👇\n@moy_ustoz_zayavki_bot'
+        rm = kb.keyboard['teachers_list_kb_' + lang]
+        await message.answer(text=text, reply_markup=rm)
     else:
         text = await methods.get_wrong_answer(lang)
         rm = kb.keyboard['teacher_list_kb_' + lang]
@@ -202,6 +223,9 @@ async def change_lang_handler(message: Message, state: FSMContext):
         await state.set_state(Menu.category_list)
         text = "Zo‘r 👍\nKerakli bo‘limni tanlang 👇"
         rm = await kb.category_list_kb(lang='uz')
+    elif message.text == kb.buttons['i_am_teacher'].text:
+        text = 'Отлично 👍 присоединяйтесь сюда👇\nAjoyib! Quyidagiga qo‘shilinglar👇\n@moy_ustoz_zayavki_bot'
+        rm = kb.keyboard['change_lang_kb']
     else:
         text = "Пожалуйста, выберите пункт ниже👇\n------------------------------\nQuyidagi elementni tanlang👇"
         rm = kb.keyboard['chabge_lang_kb']
