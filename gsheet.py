@@ -37,6 +37,9 @@ async def google_sheets_sync():
             if item['Подкатегория']:
                 subcategory = await db.subcategory_get(name_ru=item['Подкатегория'])
                 await db.update_data(table='subcategories', id=subcategory['id'], category_id=category['id'])
+            else:
+                subcategory = {'id': None}
+            #TODO: ?????
             status = await db.status_get(name_ru=item['Статус'])
             gender = await db.gender_get(name_ru=item['Пол'])
             formats = [await db.format_get(name_ru=i) for i in item['Формат занятий'].split(', ')]
