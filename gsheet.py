@@ -22,7 +22,6 @@ async def google_sheets_sync():
         spreadsheet = gc.open_by_key(GOOGLE_SHEET_ID)
         tables = [
             ['category', 'categories'],
-            ['subcategory', 'subcategories'],
             ['format', 'formats'],
             ['status', 'statuses'],
             ['gender', 'genders'],
@@ -30,16 +29,19 @@ async def google_sheets_sync():
         ]
         for t in tables:
             await data_creater(sheet=t[0], table=t[1], spreadsheet=spreadsheet)
+        subcats = spreadsheet.worksheet('subcategory').get_all_records()
+        for subcat in subcats:
+            category = await db.category_get(name_ru=subcat['category'])
+            await db.create_data(table='subcategories', name_ru=subcat['name_ru'], name_uz=subcat['name_uz'],
+                                 category_id=category['id'])
         data = spreadsheet.worksheet('new').get_all_records()
         n = 1
         for item in data:
             category = await db.category_get(name_ru=item['Категория'])
             if item['Подкатегория']:
                 subcategory = await db.subcategory_get(name_ru=item['Подкатегория'])
-                await db.update_data(table='subcategories', id=subcategory['id'], category_id=category['id'])
             else:
                 subcategory = {'id': None}
-            #TODO: ?????
             status = await db.status_get(name_ru=item['Статус'])
             gender = await db.gender_get(name_ru=item['Пол'])
             formats = [await db.format_get(name_ru=i) for i in item['Формат занятий'].split(', ')]
