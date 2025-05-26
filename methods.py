@@ -107,3 +107,13 @@ async def teachers_sender(message, teachers, lang):
                 """bosing yoki quyidagi menyu bandini tanlang""")
     rm = kb.keyboard['teachers_list_kb_' + lang]
     await message.answer(text=text, reply_markup=rm)
+
+
+async def no_teacher_sender(message, lang, rm):
+    if lang == 'ru':
+        text = ('Упс, а здесь ещё нет крутых репетиторов 🤔\nА может, это — Вы? 😮 Если да, срочно нажимайте на '
+            'кнопку «я - репетитор»!')
+    else:
+        text = ("Voy, bu yerda hali zo‘r repetitorlar yo‘q shekilli! 🤔\nBalki bu sizdirsiz? 😮 Agar shunday "
+            "bo‘lsa, tezda «Men — ustoz» tugmasini bosing!")
+    await message.answer(text=text, reply_markup=rm)
