@@ -125,9 +125,13 @@ async def subcategory_list_handler(message, state):
     if subcategory:
         await state.update_data(teachers_from_cats=False)
         await state.update_data(subcategory_id=subcategory['id'])
-        await state.set_state(Menu.teacher_list)
         teachers = await db.teacher_get(subcategory_id=subcategory['id'])
-        await methods.teachers_sender(message, teachers, lang)
+        if teachers:
+            await state.set_state(Menu.teacher_list)
+            await methods.teachers_sender(message, teachers, lang)
+        else:
+            rm = await kb.subcategory_list_kb(lang=lang, category_id=data['category_id'])
+            await methods.no_teacher_sender(message=message, rm=rm, lang=lang)
     elif message.text == kb.buttons['back_' + lang].text:
         await state.set_state(Menu.category_list)
         if lang == 'ru':
@@ -229,6 +233,19 @@ async def change_lang_handler(message: Message, state: FSMContext):
     else:
         text = "Пожалуйста, выберите пункт ниже👇\n------------------------------\nQuyidagi elementni tanlang👇"
         rm = kb.keyboard['chabge_lang_kb']
+    await message.answer(text, reply_markup=rm)
+
+
+@dp.message()
+async def default_handler(message, state):
+    data = await state.get_data()
+    lang = await methods.get_lang(data, message.chat.id)
+    if lang == 'ru':
+        text = "Пожалуйста, выберите пункт ниже👇"
+    else:
+        text = "Quyidagi elementni tanlang👇"
+    await state.set_state(Menu.category_list)
+    rm = await kb.category_list_kb(lang)
     await message.answer(text, reply_markup=rm)
 
 
