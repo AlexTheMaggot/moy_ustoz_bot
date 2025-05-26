@@ -58,16 +58,16 @@ async def teachers_sender(message, teachers, lang):
             else:
                 inline_btn = None
         else:
-            text = f"{teacher['name']}, {formatted_price} so‘mdan boshlab\n"
-            text += ', '.join([i["name_uz"] for i in teacher["formats"]]) + '\n'
-            text += teacher['status']['name_uz'] + '\n'
-            text += f'Ish tajribasi: {teacher["experience"]} yil\n'
-            text += f'Jinsi: {teacher["gender"]["name_uz"]}\n'
-            text += f'Dars o‘tiladigan til: {", ".join([i["name_uz"] for i in teacher["languages"]])}\n'
-            text += f'Manzil: {teacher["location_uz"]}\n\n'
-            text += f'O‘zim haqimda: {teacher["about_uz"]}\n\n'
-            text += f'Ma’lumoti: {teacher["education_uz"]}\n'
-            text += f'Telefon raqami: +{teacher["phone"]}'
+            text = f"<b>{teacher['name']}</b>\n💸 {formatted_price} so‘mdan boshlab\n\n"
+            text += '⭐️ ' + ', '.join([i["name_uz"] for i in teacher["formats"]]) + '\n'
+            text += '⭐️ ' + teacher['status']['name_uz'] + '\n'
+            text += f'⭐️ Ish tajribasi: {teacher["experience"]} yil\n'
+            text += f'⭐️ Jinsi: {teacher["gender"]["name_uz"]}\n'
+            text += f'⭐️ Dars o‘tiladigan til: {", ".join([i["name_uz"] for i in teacher["languages"]])}\n'
+            text += f'📍 Manzil: {teacher["location_uz"]}\n\n'
+            text += f'<b>O‘zim haqimda:</b> {teacher["about_uz"]}\n\n'
+            text += f'<b>Ma’lumoti:</b> {teacher["education_uz"]}\n'
+            text += f'<b>Telefon raqami:</b> +{teacher["phone"]}'
             if teacher['tg_link']:
                 inline_btn = InlineKeyboardMarkup(inline_keyboard=[
                     [
@@ -94,11 +94,11 @@ async def teachers_sender(message, teachers, lang):
         elif len(content) == 1:
             k, v = content[0]
             if k == 'video':
-                await message.answer_video(video=v, caption=text, reply_markup=inline_btn)
+                await message.answer_video(video=v, caption=text, reply_markup=inline_btn, parse_mode='HTML')
             else:
-                await message.answer_photo(photo=v, caption=text, reply_markup=inline_btn)
+                await message.answer_photo(photo=v, caption=text, reply_markup=inline_btn, parse_mode='HTML')
         else:
-            await message.answer(text=text, reply_markup=inline_btn)
+            await message.answer(text=text, reply_markup=inline_btn, parse_mode='HTML')
     if lang == 'ru':
         text = ('Чтобы связаться с преподавателем, нажмите на кнопку "Написать" '
                 'под анкетой, или выберите пункт меню ниже 👇')
